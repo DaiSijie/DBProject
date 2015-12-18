@@ -5,8 +5,10 @@
 
 package datastoring;
 
+import datafetching.Fetcher;
+
 public interface DataStorer {
     
-    public void notifyDataWasFetched();
+    public void notifyDataWasFetched(Fetcher f);
     
 }
