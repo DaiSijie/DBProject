@@ -48,8 +48,8 @@ public class SQLStorer implements DataStorer{
         }
         
         //Fill Teams
-        for(HashMap<String, String> tuple : f.getPlayersTuples()){
-            String cmd = "INSERT INTO Player Values(:TeamName, :Location, :Conference, :Division, :Wins, :Losses)";
+        for(HashMap<String, String> tuple : f.getTeamTuples()){
+            String cmd = "INSERT INTO Team Values(:TeamName, :Location, :Conference, :Division, :Wins, :Losses)";
             Query my = conn.createQuery(cmd);
             
             //replace params by value to avoid SQL injection
@@ -57,7 +57,7 @@ public class SQLStorer implements DataStorer{
             my.addParameter("Location", tuple.get("Location"));
             my.addParameter("Conference", tuple.get("Conference"));
             my.addParameter("Division", tuple.get("Division"));
-            my.addParameter("Winns", new Integer(tuple.get("Winns")));
+            my.addParameter("Wins", new Integer(tuple.get("Wins")));
             my.addParameter("Losses", new Integer(tuple.get("Losses")));
             
             //execute cmd
@@ -97,15 +97,15 @@ public class SQLStorer implements DataStorer{
             my.addParameter("TimeStep", newTimeStep);
             my.addParameter("Games_Played", new Integer(tuple.get("Games_Played")));
             my.addParameter("Points", new Integer(tuple.get("Points")));
-            my.addParameter("Rebouds", new Integer(tuple.get("Rebounds")));
+            my.addParameter("Rebounds", new Integer(tuple.get("Rebounds")));
             my.addParameter("Assists", new Integer(tuple.get("Assists")));
             my.addParameter("Steals", new Integer(tuple.get("Steals")));
             my.addParameter("Blocks", new Integer(tuple.get("Blocks")));
-            my.addParameter("Turnover", new Integer(tuple.get("Turnovers")));
+            my.addParameter("Turnovers", new Integer(tuple.get("Turnovers")));
             my.addParameter("FGM", new Integer(tuple.get("FGM")));
             my.addParameter("ThreePFGM", new Integer(tuple.get("ThreePFGM")));
             my.addParameter("FGA", new Integer(tuple.get("FGA")));
-            my.addParameter("ThreePFGA", new Integer(tuple.get("ThrePFGA")));
+            my.addParameter("ThreePFGA", new Integer(tuple.get("ThreePFGA")));
             my.addParameter("FTM", new Integer(tuple.get("FTM")));
             my.addParameter("FTA", new Integer(tuple.get("FTA")));
 
@@ -116,13 +116,13 @@ public class SQLStorer implements DataStorer{
     }
     
     private int getCurrentTimeStep(){
-        String cmd = "SELECT max(TimeStep) as u FROM Player";
+        String cmd = "SELECT max(timestep) as u FROM Statistics";
         
         Connection conn = database.open();
         List<Map<String, Object>> boh = conn.createQuery(cmd).executeAndFetchTable().asList();
         conn.close();
         
-        if(boh.isEmpty())
+        if(boh.isEmpty() || boh.get(0).get("u") == null)
             return 0;
         else
             return (Integer) boh.get(0).get("u");
