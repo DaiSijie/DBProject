@@ -36,8 +36,9 @@ public class WrapperUtility {
 
         //create the source database object
         SQLiteDataSource source = new SQLiteDataSource();
-        source.setUrl("jdbc:sqlite:" + SQLStorer.DIRECTORY_NAME + File.separator + SQLStorer.FILE_NAME);
-
+        source.setUrl("jdbc:sqlite:" + SQLStorer.DIRECTORY_NAME + File.separator + SQLStorer.FILE_NAME);        
+        
+        
         //creating the database and returning.
         return new Sql2o(source);
     }
