@@ -81,22 +81,24 @@
 %	PROBLEM 1
 %----------------------------------------------------------------------------------------
 \section{Overview}
-In this project, we focused on building a server that will fetch data smartly from NBA.com and use the induced temporality in the data to plot some aggregate statistics.
+In this project, we focused on designing a service that fetches data periodically from NBA.com and use the induced temporality in the data to plot some aggregate statistics. We designed a simple GUI to explore a bit the fetched data.
 
 \section{Data URL}
 
 TODO: Nik (put where is the source of data). For a more precise text, please refer to the "Fetching the data" section.
 
 \section{Running our code}
-We wrote our code in java and python. The java parts call's the python code implicitly, so no need to do anything. The java parts has two main. The first, in class Bootstrap.java is the server side of our app. It launches the services that fills the database. The second main is to be found in Analyzer.java, it's job is to query the database and plot stem graphs. 
+TODO: Nik verify this section\\
 
-Analyzer.java comes precompiled as a jar file you can simply double click on it or type in \verb!java -jar Analyzer.jar!. The actual database should be put exactly as:
+The code was written in Java and Python. The Python part is invoked directly in the Java code, so there is no way to run it on it's own. There are two main classes. First, there is \verb!Bootstrap.java! which represent the server which fetches data periodically. Second, there is \verb!Analyzer.jar! which provides a GUI to explore the data.\\
+
+The server does not come precompiled, but the Analyzer does. To run it, just double click on \verb!Analyzer.java! or type in \verb!java -jar Analyzer.jar!. The actual database should be put exactly as that:
 
 \begin{verbatim}
 <folder where the jar is>/data/db.sql
 \end{verbatim}
 
-Those two files comes in the runnable folder of the archive.
+Those two files comes in the runnable folder of the zip archive.
 
 \section{Specialization}
 
@@ -104,9 +106,11 @@ Those two files comes in the runnable folder of the archive.
 TODO: Nik
 
 \subsection{Designing a GUI to render temporality}
-Since we fetch the data in a periodical fashion, we can get nice stem plots. On the x-axis lies the time, and on the y axis lies the aggregate statistic. This can show new hidden relations in data such as: "Does this particular player do better on week-end games?"\\
+Since we fetch the data in a periodical fashion, we have statistic with one more dimension: the time. This is what led us to the idea of showing the statistic by displaying stem plots.\\
 
-Sometimes, simplicity is good. We decided to make only one query available but to make it parametrizable via combo boxes (see Figure \ref{sc1}, \ref{sc2}). The advantage of using combo boxes is that it prevents SQL injections problems and that it clearly shows the user was the program has to offer.\\
+On the x-axis lies the time, and on the y axis lies the statistic. This can show new hidden relations in data such as: "Does this particular player do better on week-end games?".\\
+
+Sometimes, simplicity is good. We decided to make only one query available but to make it parametrizable via combo boxes (see Figure \ref{sc1}, \ref{sc2}). The advantage of using combo boxes is that it prevents SQL injections  and that it clearly shows the user was the program has to offer.\\
 
 We coded the GUI from scratch with only \verb!Java.Swing! API.
 
@@ -127,10 +131,10 @@ We coded the GUI from scratch with only \verb!Java.Swing! API.
 \section{Limitation and further improvements}
 TODO: fill the data fetching part Niki.\\
 
-On the GUI part, we could quite easily add more feature and queries. This would not require much time, but the point of this executable was to show that it was possible.
+On the GUI part, we could quite easily add more feature and queries. This would not require much time, but the point of this executable was to show that it was possible and how to use the time that we have in the data.
 
 \section{Description of the database}
-TODO: Niki
+TODO: Niki (you can inspire yourself from section Constructing the database)
 
 \newpage
 
@@ -138,7 +142,7 @@ TODO: Niki
 We did not use extensively SQL since the goal of our project was mainly to fetch data smartly, but those are the queries our program uses.
 
 \subsection{Constructing the database}
-(From \verb!SQLStorer.prepareCuteDatabase()!.)
+Those queries come from \verb!SQLStorer.prepareCuteDatabase()!.
 
 \begin{verbatim}
 CREATE TABLE IF NOT EXISTS Player(FName TEXT, LName TEXT, Age Integer,
@@ -161,7 +165,7 @@ CREATE TABLE IF NOT EXISTS Date(TimeStep Integer, Date TEXT, PRIMARY KEY(TimeSte
 \end{verbatim}
 
 \subsection{Inserting fetched data}
-(From various methods in \verb!SQLStorer.java!.) All the parameters starting with ":" are binded after some kind of processing to avoid SQL injection.
+(Those queries come from various methods in \verb!SQLStorer.java!. All the parameters starting with ":" are linked after some kind of processing to avoid SQL injection.
 
 \begin{verbatim}
 INSERT INTO Player Values(:FName, :LName, :Age, :Height, :Weight, :Years_Pro,
@@ -183,8 +187,8 @@ SELECT max(timestep) as u FROM Statistics
 SELECT * FROM Player
 \end{verbatim}
 
-\subsection{Fetching the database}
-(From various methods in \verb!WrapperUtility.java!).
+\subsection{Fetching data}
+Those queries come from various methods in \verb!WrapperUtility.java!.
 
 \begin{verbatim}
 SELECT P.FName, P.LName FROM Player as P
