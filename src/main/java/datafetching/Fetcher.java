@@ -24,6 +24,7 @@ public abstract class Fetcher {
     
     public abstract void killProcess();
     
+    public abstract String getDate();
     
     /**
      * @return A map with key, value. (e.g FName and John) - Will only be called once

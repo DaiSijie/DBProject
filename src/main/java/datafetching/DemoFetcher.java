@@ -5,7 +5,10 @@
 
 package datafetching;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
@@ -14,6 +17,7 @@ public class DemoFetcher extends Fetcher {
 
     private final Random rand = new Random(1995);
     
+    private String date;
     
     private String[][] p = {{"Jose",    "Calderon", "34", "75.34", "120", "10", "ATK"},
                             {"Joel",    "Embid",    "25", "79.21", "150", "2", "DEF"},
@@ -103,10 +107,10 @@ public class DemoFetcher extends Fetcher {
         
     }
 
-    private void addToStats(){
+    private void addToStats(int it){
         for(int i = 0; i < p.length; i++){
             statsTuples.get(i).put("Games_Played", ""+ (new Integer(statsTuples.get(i).get("Games_Played")) + rand.nextInt(4)));
-            statsTuples.get(i).put("Points", ""+ (new Integer(statsTuples.get(i).get("Points")) + rand.nextInt(30)));
+            statsTuples.get(i).put("Points", ""+ (new Integer(statsTuples.get(i).get("Points")) + rand.nextInt(4)));
             statsTuples.get(i).put("Rebounds", ""+ (new Integer(statsTuples.get(i).get("Rebounds")) + rand.nextInt(4)));
             statsTuples.get(i).put("Assists", ""+ (new Integer(statsTuples.get(i).get("Assists")) + rand.nextInt(4)));
             statsTuples.get(i).put("Steals", ""+ (new Integer(statsTuples.get(i).get("Steals")) + rand.nextInt(4)));
@@ -119,6 +123,12 @@ public class DemoFetcher extends Fetcher {
             statsTuples.get(i).put("FTM", ""+ (new Integer(statsTuples.get(i).get("FTM")) + rand.nextInt(4)));
             statsTuples.get(i).put("FTA", ""+ (new Integer(statsTuples.get(i).get("FTA")) + rand.nextInt(4)));
         }
+        
+        
+        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yy");
+        @SuppressWarnings("deprecation")
+        Date date = new Date(2014, 12, 5 + it);        
+        this.date = dateFormat.format(date);
     }
     
     @Override
@@ -126,7 +136,7 @@ public class DemoFetcher extends Fetcher {
         fillBasicTuples();
         for(int i = 0; i < iterations; i++){
             simulateWait();
-            addToStats();
+            addToStats(i);
             simulateWait();
             super.notifyDataWasFetched();
         }
@@ -165,6 +175,11 @@ public class DemoFetcher extends Fetcher {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public String getDate() {
+        return date;
     }
 
 

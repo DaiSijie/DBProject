@@ -5,7 +5,6 @@
 
 package general;
 
-import datafetching.BasicFetcher;
 import datafetching.DemoFetcher;
 import datafetching.Fetcher;
 import datastoring.DataStorer;
@@ -13,21 +12,13 @@ import datastoring.SQLStorer;
 
 public class Bootstrap {
 
-    public static void main(String[] args){
-        System.out.println("Hello world!");
-        
+    public static void main(String[] args){        
         Fetcher fetcher = new DemoFetcher(10);
         DataStorer sqlStorer = new SQLStorer();
         
         fetcher.registerDataStorer(sqlStorer);
         
         fetcher.startProcess();
-        /*
-         * grabs data and stores it...
-         */
-        fetcher.killProcess();
-        
-        //show data :-)
     }
     
 }
